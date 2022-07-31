@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import { useParams } from "react-router-dom"
 import SearchForm from "../../components/SearchForm"
 
@@ -8,10 +8,6 @@ const SearchExchanges = () => {
     return (
         <>
             <SearchForm initialValue={pair}/>
-        
-            {/* <Modal onClose={() => { //TODO add missing props and consider moving it in ResultsTable
-              setPopupVisible(false)
-            }} visible={popupVisible} /> */}
         </>
     )
 }

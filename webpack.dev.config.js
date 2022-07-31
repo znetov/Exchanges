@@ -8,7 +8,7 @@ const static = "exchangeAppStatic"
 module.exports = {
     ...baseConfig,
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     optimization: undefined,
     devServer: {
         static: false,
@@ -28,7 +28,33 @@ module.exports = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
             "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-          },
+        },
+        proxy: {
+            '/kraken': {
+                target: 'https://api.kraken.com',
+                pathRewrite: {
+                    '/kraken': ''
+                },
+                secure:false,
+                changeOrigin: true
+            },
+            '/bitfinex': {
+                target: 'https://api-pub.bitfinex.com',
+                pathRewrite: {
+                    '/bitfinex': ''
+                },
+                secure:false,
+                changeOrigin: true
+            },
+            '/details': {
+                target: '"https://api.binance.com"',
+                pathRewrite: {
+                    '/details': ''
+                },
+                secure:false,
+                changeOrigin: true
+            }
+        }
     },
     plugins: [
         new CleanWebpackPlugin(),

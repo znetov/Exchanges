@@ -23,9 +23,9 @@ type huobiResponseFormat = {
 
 const huobiResponseFormater = (res:huobiResponseFormat) => {
     if(res.status === "ok"){
-        return {"platform": "Huobi", "price":  res.tick.data[0].price.toString()}
+        return {"platform": "Huobi", "price":  res.tick.data[0].price}
     }else {
-        return {"platform": "Huobi", "price":  res["err-msg"] || "N/A"} 
+        return {"platform": "Huobi", "price":  -404} 
     }
 }
 

@@ -1,0 +1,70 @@
+body {
+    font-family:Verdana, Geneva, Tahoma, sans-serif
+}
+thead .ascending::after {
+    content: '👇';
+    display: inline-block;
+    margin-left: 1em;
+  }
+  
+  thead .descending::after {
+    content: '☝️';
+    display: inline-block;
+    margin-left: 1em;
+  }
+
+// ================= Modal
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    &-content {
+        width: 500px;
+        background-color: #fff;
+    }
+
+    &-header {
+        padding: 10px;
+    }
+    &-footer {
+        padding: 10px;
+
+        & .modal-button{
+            background-color: #fff;
+            height: 30px;
+            width: 65px;
+            border-radius: 7px;
+            border: 1px solid #939393;
+            outline: none;
+            margin-left: 10px;
+        }
+    }
+
+    &-title {
+        margin: 0;
+    }
+
+    &-body {
+        padding: 10px;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        max-height: 60vh;
+        overflow: auto;
+    }
+
+    &-details-section{
+        padding: 10px;
+        border-top: 1px solid #eee;
+    }
+
+
+    
+}

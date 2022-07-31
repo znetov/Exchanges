@@ -35,8 +35,6 @@ module.exports = {
         }),
         new WebpackManifestPlugin({ publicPath: `/${static}/` }),
     ],
-    devtool: 'source-map',
-
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json', '.svg', '.scss', '.css'],
         alias: webpackAlias,

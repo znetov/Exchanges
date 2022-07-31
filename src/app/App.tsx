@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import SearchForm from "../components/SearchForm"
-import Modal from '../components/Modal';
 import { BrowserRouter, useRoutes } from 'react-router-dom';
 import SearchExchanges from "../pages/SearchExchanges"
 import ExchangeDetails from '../pages/ExchangeDetails';
+import "../styles/app.scss"
 
 const AppWithRoutes: React.FC = function () {
   const routes = useRoutes([
