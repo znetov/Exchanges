@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useState, useRef, useEffect, useCallback } from "react"
+import React, { BaseSyntheticEvent, useState, useEffect, useCallback } from "react"
 import { getBinanceExchanges, getBitfinexExchanges, getHuobiExchanges, getKrakenExchanges } from "../../services/exchanges"
 import ResultsTable from "../ResultsTable"
 import binanceResponseFormatter from "../../utils/binanceResponseFormatter"
@@ -12,12 +12,16 @@ type searchFormProps = {
 
 const SearchForm = function(props: searchFormProps){
     const {initialValue} = props
-    const [tableData, setTableData] = useState<{ platform: string; price: number; }[]>([])
+    const [binanceData,setBinanceData] = useState(-1)
+    const [bitfinexData,setBitfinexData] = useState(-1)
+    const [krakenData,setKrakenData] = useState(-1)
+    const [huobiData,setHuobiData] = useState(-1)
     const [pair, setPair] = useState("")
 
     useEffect(()=> {
         if(initialValue !== undefined){
             getData(initialValue)
+            refreshData(initialValue)
         }
     },[initialValue])
 
@@ -30,33 +34,33 @@ const SearchForm = function(props: searchFormProps){
     }, [])
 
     const getData = useCallback((value:string)=>{
-        setTableData([])
         let queryParamBinance = {"symbol": value.toUpperCase()}
         let queryParamHuobi = {"symbol": value.toLowerCase()}
         let queryParamKraken = {"pair":  value.toUpperCase()}
-        getBinanceExchanges("/ticker/price",queryParamBinance ).then((res:any) => { //change to proper response format
+        getBinanceExchanges("/ticker/price",queryParamBinance ).then((res:any) => { 
             let formated = binanceResponseFormatter(res)
-            setTableData(current => [...current, formated])
+            setBinanceData(formated);
+
         }).catch((er)=>{
-            debugger //set data with invalid symbol
+            setBinanceData(-404)
         })
-        getBitfinexExchanges(`/v2/ticker/t${value.toUpperCase()}`, {} ).then((res:any) => { //change to proper response format
+        getBitfinexExchanges(`/v2/ticker/t${value.toUpperCase()}`, {} ).then((res:any) => { 
             let formated = bitfinexResponseFormatter(res)
-            setTableData(current => [...current, formated])
+            setBitfinexData(formated);
         }).catch((er)=>{
-            debugger //set data with invalid symbol
+            setBitfinexData(-404)
         })
-        getHuobiExchanges("/trade", queryParamHuobi).then((res:any)=>{ //todo change to proper response format
+        getHuobiExchanges("/trade", queryParamHuobi).then((res:any)=>{ 
            if(res.status === 'ok'){
                 let formated = huobiResponseFormatter(res)
-                setTableData(current => [...current, formated])
+                setHuobiData(formated);
            }
         }).catch((er)=>{
-            debugger //set data with invalid symbol
+            setHuobiData(-404)
         })
         getKrakenExchanges("/0/public/Ticker", queryParamKraken).then((res:any)=>{
             let formated = krakenResponseFormatter(res)
-            setTableData(current => [...current, formated])
+            setKrakenData(formated);
         }).catch((er)=>{
             console.error(er)
         })
@@ -81,7 +85,7 @@ const SearchForm = function(props: searchFormProps){
                 <button className="form-button" type="submit">Search</button>
             </form>
             <div id="apiTest"></div>
-            <ResultsTable data={tableData} pair={pair}/>
+            <ResultsTable binanceData={binanceData} bitfinexData={bitfinexData} huobiData={huobiData} krakenData={krakenData} pair={pair}/>
         </>        
     )
 }

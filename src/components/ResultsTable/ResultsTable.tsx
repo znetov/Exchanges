@@ -3,20 +3,30 @@ import Modal from "../Modal"
 import {getBinanceExchanges,getBitfinexExchanges,getHuobiExchanges,getKrakenExchanges} from '../../services/exchanges'
 
 type ResultsTableProps = { //TODO move to types
-    data: {platform:string,price:number}[]
+    //data: {platform:string,price:number}[]
+    binanceData:number
+    bitfinexData:number
+    huobiData:number
+    krakenData:number
     pair: string
 }
 
 const ResultsTable = function(props:ResultsTableProps){
-    const {data, pair} = props
+    const {binanceData,bitfinexData,krakenData,huobiData, pair} = props
     const [sortConfig, setSortConfig] = useState({direction:""});
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupData, setPopupData] = useState<any>({})
 
-    let sortedData = [...data]
+    let initialData = [
+        {"platform": "Binance", "price": binanceData},
+        {"platform": "Bitfinex", "price": bitfinexData},
+        {"platform": "Huobi", "price": huobiData},
+        {"platform": "Kraken", "price": krakenData},
+    ]
+
     React.useMemo(()=>{
         
-        sortedData.sort((a,b)=>{
+        initialData.sort((a,b)=>{
         if(a.price < b.price){
             return sortConfig.direction === 'ascending' ? -1 : 1;
         }
@@ -25,8 +35,8 @@ const ResultsTable = function(props:ResultsTableProps){
         }
             return 0
         })
-        return sortedData
-    },[data,sortConfig])
+        return initialData
+    },[binanceData,bitfinexData,huobiData,krakenData,sortConfig])
 
     const buildClassName = () =>{
         if (!sortConfig) {
@@ -107,19 +117,19 @@ const ResultsTable = function(props:ResultsTableProps){
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        sortedData.map((item, key)=> {
-                            return (
-                                <tr key={key} className="results-table-row">
-                                    <td>{item.platform}</td>
-                                    <td><button id={item.platform} onClick={(e)=>{
-                                        //@ts-ignore
-                                        handlePriceButtonClick(e.currentTarget.id)
-                                    }}>{item.price === -404 ? "Invalid Symbol": item.price}</button></td>
-                                </tr>
-                            )
-                        })
-                    }
+                {
+                    initialData.map((item, key)=> {
+                        return (
+                            <tr key={key} className="results-table-row">
+                                <td>{item.platform}</td>
+                                <td><button id={item.platform} onClick={(e)=>{
+                                    //@ts-ignore
+                                    handlePriceButtonClick(e.currentTarget.id)
+                                }}>{item.price === -404 ? "Invalid Symbol": item.price=== -1 ? "Search for a pair to get data": item.price}</button></td>
+                            </tr>
+                        )
+                    })
+                }
                 </tbody>
             </table>
             <Modal popupData={popupData} title={"Details"} onClose={() => {

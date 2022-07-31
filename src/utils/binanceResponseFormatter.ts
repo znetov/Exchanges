@@ -7,9 +7,9 @@ type binanceResponseFormat = {
 
 const binanceResponceFormatter = (res:binanceResponseFormat) => {
     if(res.price){
-        return {"platform": "Binance", "price": Number(res.price) };
+        return  Number(res.price);
     }else {
-       return {"platform": "Binance", "price":  -404};
+       return   -404;
     }
 }
 
