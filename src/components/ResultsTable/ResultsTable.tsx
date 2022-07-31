@@ -99,9 +99,9 @@ const ResultsTable = function(props:ResultsTableProps){
     }
     return (
         <>
-            <table>
+            <table className="results-table">
                 <thead>
-                    <tr>
+                    <tr className="results-table-row">
                         <th>Platform</th>
                         <th className={buildClassName()} onClick={()=> {sort()}}>Price</th> 
                     </tr>
@@ -110,7 +110,7 @@ const ResultsTable = function(props:ResultsTableProps){
                     {
                         sortedData.map((item, key)=> {
                             return (
-                                <tr key={key}>
+                                <tr key={key} className="results-table-row">
                                     <td>{item.platform}</td>
                                     <td><button id={item.platform} onClick={(e)=>{
                                         //@ts-ignore

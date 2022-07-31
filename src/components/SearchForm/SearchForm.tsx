@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useState, useRef, useEffect } from "react"
+import React, { BaseSyntheticEvent, useState, useRef, useEffect, useCallback } from "react"
 import { getBinanceExchanges, getBitfinexExchanges, getHuobiExchanges, getKrakenExchanges } from "../../services/exchanges"
 import ResultsTable from "../ResultsTable"
 import binanceResponseFormatter from "../../utils/binanceResponseFormatter"
@@ -14,34 +14,23 @@ const SearchForm = function(props: searchFormProps){
     const {initialValue} = props
     const [tableData, setTableData] = useState<{ platform: string; price: number; }[]>([])
     const [pair, setPair] = useState("")
-    const form = useRef(null)
-    const input = useRef(null)
 
-    // useEffect(()=>{
-    //     //@ts-ignore ref possibly null
-    //    input.current.dispatchEvent(
-    //         new Event("change", {
-    //             bubbles: true,
-    //             cancelable: true,
-    //         })
-    //    )
-    // },[])
+    useEffect(()=> {
+        if(initialValue !== undefined){
+            getData(initialValue)
+        }
+    },[initialValue])
 
-    // const handleInputChange = (e:any) => {
-    //     if(initialValue !== undefined){
-    //         let searchForm = form.current
-    //         //@ts-ignore ref possibly null
-    //         searchForm && searchForm.submit()
-    //     }
-    //     return false
-    // }
+    const refreshData = useCallback((value:string) => {
+        const interval = setInterval(() => {
+            getData(value)
+        }, 10000)
 
-    const handleSubmit = (e:BaseSyntheticEvent) => {
-        e.preventDefault()
+        return () => clearInterval(interval)
+    }, [])
+
+    const getData = useCallback((value:string)=>{
         setTableData([])
-        let value:string = e.target.children[0].value
-        setPair(value)
-        value = value.replace("/", "")
         let queryParamBinance = {"symbol": value.toUpperCase()}
         let queryParamHuobi = {"symbol": value.toLowerCase()}
         let queryParamKraken = {"pair":  value.toUpperCase()}
@@ -49,13 +38,13 @@ const SearchForm = function(props: searchFormProps){
             let formated = binanceResponseFormatter(res)
             setTableData(current => [...current, formated])
         }).catch((er)=>{
-            debugger
+            debugger //set data with invalid symbol
         })
         getBitfinexExchanges(`/v2/ticker/t${value.toUpperCase()}`, {} ).then((res:any) => { //change to proper response format
             let formated = bitfinexResponseFormatter(res)
             setTableData(current => [...current, formated])
         }).catch((er)=>{
-            debugger
+            debugger //set data with invalid symbol
         })
         getHuobiExchanges("/trade", queryParamHuobi).then((res:any)=>{ //todo change to proper response format
            if(res.status === 'ok'){
@@ -63,27 +52,33 @@ const SearchForm = function(props: searchFormProps){
                 setTableData(current => [...current, formated])
            }
         }).catch((er)=>{
-            debugger
+            debugger //set data with invalid symbol
         })
         getKrakenExchanges("/0/public/Ticker", queryParamKraken).then((res:any)=>{
             let formated = krakenResponseFormatter(res)
             setTableData(current => [...current, formated])
         }).catch((er)=>{
-            debugger
+            console.error(er)
         })
+    },[])
+
+    const handleSubmit = (e:BaseSyntheticEvent) => {
+        e.preventDefault()
+        let value:string = e.target.children[0].value
+        setPair(value)
+        value = value.replace("/", "")
+        getData(value)
+        refreshData(value)
     }
     return (
         <>
-            <form ref={form} onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
                 <input 
-                    ref={input}
-                    onChange={(e)=> {
-                        //handleInputChange(e)
-                    }}
+                    className="form-input"
                     type="text"
-                    value={initialValue}
+                    defaultValue={initialValue}
                 />
-                <button type="submit">Search</button>
+                <button className="form-button" type="submit">Search</button>
             </form>
             <div id="apiTest"></div>
             <ResultsTable data={tableData} pair={pair}/>

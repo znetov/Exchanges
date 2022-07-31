@@ -7,6 +7,7 @@ const SearchExchanges = () => {
     const pair = params.pair
     return (
         <>
+            <h2>Exchange rates comparison</h2>
             <SearchForm initialValue={pair}/>
         </>
     )
