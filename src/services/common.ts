@@ -14,11 +14,6 @@ const gFetch = async (uri: string, optionsOverride: Record<string, unknown> = {}
     }
 
     const text = await response.text();
-    // if (error) {
-    //     return Promise.reject(
-    //         new Error(`Received ${response.status}. Response: ${text}`)
-    //     );
-    // }
 
     return Promise.reject(text || 'Unknown Error');
 };
@@ -38,10 +33,6 @@ export const fetchJson = async <T = unknown>(
         requestUri += `?${toQueryParams(queryParams)}`;
     }
 
-    const response = await gFetch(`${requestUri}`, {
-        // headers: {
-        //     'Content-Type': 'application/json'
-        // },
-    });
+    const response = await gFetch(`${requestUri}`, {});
     return response.json();
 };

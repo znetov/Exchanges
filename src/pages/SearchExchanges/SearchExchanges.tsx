@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import SearchForm from "../../components/SearchForm"
 
@@ -8,7 +8,7 @@ const SearchExchanges = () => {
     return (
         <>
             <h2 className="header">Criptocurrencies exchange rates comparison</h2>
-            <SearchForm initialValue={pair}/>
+            <SearchForm initialValue={pair} />
         </>
     )
 }
