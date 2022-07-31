@@ -18,11 +18,6 @@ const ExchangeDetails = () => {
     },[])
     return (
         <>
-            <h2>Details</h2>
-            <button>Binance</button>
-            <button>Bitfinex</button>
-            <button>Huobi</button>
-            <button>Kraken</button>
             <Modal  visible={visible} onClose={()=> {setVisible(false)}} title="Details" popupData={data}/>
         </>
     )

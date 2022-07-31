@@ -15,6 +15,19 @@ const loaders = [
             'sass-loader'
         ]
     },
+    {
+        test: /\.svg$/,
+        use: [
+            '@svgr/webpack',
+            {
+                loader: 'svg-url-loader',
+                options: {
+                    limit: 1000,
+                    mimetype: 'image/svg+xml',
+                },
+            }
+        ]
+    },
     { test: /\.css$/, use: ['style-loader', 'css-loader'] },
     {
         test: /favicon.ico$/,

@@ -78,6 +78,7 @@ const SearchForm = function(props: searchFormProps){
         <>
             <form className="form" onSubmit={handleSubmit}>
                 <input 
+                    placeholder="ETH/BTC"
                     className="form-input"
                     type="text"
                     defaultValue={initialValue}
