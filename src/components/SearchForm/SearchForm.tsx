@@ -21,11 +21,11 @@ const SearchForm = function (props: searchFormProps) {
     useEffect(() => {
         if (initialValue !== undefined) {
             getData(initialValue)
-            refreshData(initialValue)
+            //refreshData(initialValue)
         }
     }, [initialValue])
 
-    const refreshData = useCallback((value: string) => {
+    const refreshData = useCallback((value: string) => { // cancel the first interval on second search!!!
         const interval = setInterval(() => {
             getData(value)
         }, 10000)
@@ -37,7 +37,7 @@ const SearchForm = function (props: searchFormProps) {
         let queryParamBinance = { "symbol": value.toUpperCase() }
         let queryParamHuobi = { "symbol": value.toLowerCase() }
         let queryParamKraken = { "pair": value.toUpperCase() }
-        getBinanceExchanges("/ticker/price", queryParamBinance).then((res: any) => {
+        getBinanceExchanges("/api/v3/ticker/price", queryParamBinance).then((res: any) => {
             let formated = binanceResponseFormatter(res)
             setBinanceData(formated);
 
@@ -50,7 +50,7 @@ const SearchForm = function (props: searchFormProps) {
         }).catch((er) => {
             setBitfinexData(-404)
         })
-        getHuobiExchanges("/trade", queryParamHuobi).then((res: any) => {
+        getHuobiExchanges("/market/trade", queryParamHuobi).then((res: any) => {
             if (res.status === 'ok') {
                 let formated = huobiResponseFormatter(res)
                 setHuobiData(formated);
@@ -72,7 +72,7 @@ const SearchForm = function (props: searchFormProps) {
         setPair(value)
         value = value.replace("/", "")
         getData(value)
-        refreshData(value)
+        //refreshData(value)
     }
     return (
         <>

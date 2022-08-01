@@ -47,9 +47,25 @@ module.exports = {
                 changeOrigin: true
             },
             '/details': {
-                target: '"https://api.binance.com"',
+                target: 'https://api.binance.com',
                 pathRewrite: {
                     '/details': ''
+                },
+                secure:false,
+                changeOrigin: true
+            },
+            "/binance": {
+                target: 'https://api.binance.com',
+                pathRewrite: {
+                    '/binance': ''
+                },
+                secure:false,
+                changeOrigin: true
+            },
+            "/huobi": {
+                target: 'https://api.huobi.pro',
+                pathRewrite: {
+                    '/huobi': ''
                 },
                 secure:false,
                 changeOrigin: true

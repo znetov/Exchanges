@@ -1,9 +1,8 @@
 import { fetchJson } from "./common";
 
-//const binanceURL = "/binanceTicker"
-const binanceURL = "https://api.binance.com/api/v3"
+const binanceURL = "/binance"
 const bitfinexURL = "/bitfinex"
-const huobiURL = "https://api.huobi.pro/market"
+const huobiURL = "/huobi"
 const krakenURL = "/kraken"
 
 export const getBinanceExchanges = (path:string, queryParams: {[key:string]: string})  => 

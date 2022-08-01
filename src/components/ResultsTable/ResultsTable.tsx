@@ -74,9 +74,9 @@ const ResultsTable = function (props: ResultsTableProps) {
             "Kraken": { "pair": searchString.toUpperCase() }
         }
         let paths = {
-            "Binance": "/trades",
+            "Binance": "/api/v3/trades",
             "Bitfinex": `/v2/trades/t${searchString.toUpperCase()}/hist`,
-            "Huobi": "/history/trade",
+            "Huobi": "/market/history/trade",
             "Kraken": "/0/public/Trades" //returns last 1000 trades no limit
         }
 
