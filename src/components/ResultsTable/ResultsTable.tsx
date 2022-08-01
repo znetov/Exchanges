@@ -2,14 +2,7 @@ import React, { useState, useMemo } from "react"
 import Modal from "../Modal"
 import { useParams } from "react-router-dom"
 import { getBinanceExchanges, getBitfinexExchanges, getHuobiExchanges, getKrakenExchanges } from '../../services/exchanges'
-
-type ResultsTableProps = { //TODO move to types
-    binanceData: number
-    bitfinexData: number
-    huobiData: number
-    krakenData: number
-    pair: string
-}
+import { ResultsTableProps } from "../../types"
 
 const ResultsTable = function (props: ResultsTableProps) {
     const { binanceData, bitfinexData, krakenData, huobiData, pair } = props
@@ -77,7 +70,7 @@ const ResultsTable = function (props: ResultsTableProps) {
             "Binance": "/api/v3/trades",
             "Bitfinex": `/v2/trades/t${searchString.toUpperCase()}/hist`,
             "Huobi": "/market/history/trade",
-            "Kraken": "/0/public/Trades" //returns last 1000 trades no limit
+            "Kraken": "/0/public/Trades"
         }
 
         let query = queries[platform]

@@ -1,22 +1,5 @@
 import React from "react"
-
-type modalProps = {
-    title: string
-    visible: boolean
-    onClose: () => void
-    popupData: { key: "Binance" | "Bitfinex" | "Huobi" | "Kraken", data: any }
-}
-
-
-type binanceDetailsResponseFormat = {
-    id: number
-    isBestMatch: boolean
-    isBuyerMaker: boolean
-    price: string
-    qty: string
-    quoteQty: string
-    time: number
-}
+import { binanceDetailsResponseFormat, modalProps } from "../../types"
 
 const binanceDetailsFormatter = (item: binanceDetailsResponseFormat, key: number) => {
     return (

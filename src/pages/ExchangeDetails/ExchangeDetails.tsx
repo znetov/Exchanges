@@ -10,7 +10,7 @@ const ExchangeDetails = () => {
     const pair = params.pair || ""
 
     useEffect(() => {
-        getBitfinexExchanges(`/v2/trades/t${pair.toUpperCase()}/hist`, { "limit": "15" }).then((res) => { //TODO maybe call all 4 platforms as there is no requirements 
+        getBitfinexExchanges(`/v2/trades/t${pair.toUpperCase()}/hist`, { "limit": "15" }).then((res) => { 
             let identifier = { key: "Bitfinex", data: res }
             setData(identifier);
             setVisible(true);

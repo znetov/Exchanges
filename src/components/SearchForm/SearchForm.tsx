@@ -5,10 +5,7 @@ import binanceResponseFormatter from "../../utils/binanceResponseFormatter"
 import huobiResponseFormatter from "../../utils/huobiResponseFormatter"
 import krakenResponseFormatter from "../../utils/krakenResponseFormatter"
 import bitfinexResponseFormatter from "../../utils/bitfinexResponseFormatter"
-
-type searchFormProps = {
-    initialValue?: string
-}
+import { searchFormProps } from "../../types"
 
 const SearchForm = function (props: searchFormProps) {
     const { initialValue } = props
