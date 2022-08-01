@@ -21,17 +21,23 @@ const SearchForm = function (props: searchFormProps) {
     useEffect(() => {
         if (initialValue !== undefined) {
             getData(initialValue)
-            //refreshData(initialValue)
+            setPair(initialValue);
         }
     }, [initialValue])
 
-    const refreshData = useCallback((value: string) => { // cancel the first interval on second search!!!
-        const interval = setInterval(() => {
-            getData(value)
-        }, 10000)
-
-        return () => clearInterval(interval)
-    }, [])
+    useEffect(() => { 
+        let value = pair.replace("/", "")
+        let interval:any
+        if(pair !== ""){
+            interval = setInterval(() => {
+                getData(value)
+            }, 10000)
+        }
+       
+        return function () { 
+            return clearInterval(interval)
+        };
+    }, [pair])
 
     const getData = useCallback((value: string) => {
         let queryParamBinance = { "symbol": value.toUpperCase() }
@@ -72,7 +78,6 @@ const SearchForm = function (props: searchFormProps) {
         setPair(value)
         value = value.replace("/", "")
         getData(value)
-        //refreshData(value)
     }
     return (
         <>
